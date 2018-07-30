@@ -11,13 +11,14 @@ type book struct {
 	Chapters int
 }
 
-var lists [10][]book
 var chapters [10][]string
 var currentDay int
 
 func main() {
 	flag.IntVar(&currentDay, "day", 1, "Current day you are reading.")
 	flag.Parse()
+
+	lists := generateLists()
 
 	for listNumber, books := range lists {
 		for _, book := range books {
@@ -36,7 +37,7 @@ func main() {
 	}
 }
 
-func init() {
+func generateLists() (lists [10][]book) {
 	lists[0] = []book{
 		book{"Matthäus", 28},
 		book{"Markus", 16},
@@ -132,4 +133,6 @@ func init() {
 	lists[9] = []book{
 		book{"Apostelgeschichte", 28},
 	}
+
+	return lists
 }
