@@ -4,6 +4,7 @@ import (
 	"flag"
 	"fmt"
 	"strconv"
+	"time"
 )
 
 type book struct {
@@ -12,13 +13,33 @@ type book struct {
 }
 
 func main() {
-	var currentDay int
+	var currentDay, daysAdvanced, daysSkipped int
+	var dateStarted string
 
+	flag.StringVar(&dateStarted, "date-started", time.Now().Format("2006-01-02"),
+		"The date you started reading this plan.")
+	flag.IntVar(&daysAdvanced, "days-advanced", 0, "Amount of days you read in advance.")
+	flag.IntVar(&daysSkipped, "days-skipped", 0, "Amount of days you skipped the reading.")
 	flag.IntVar(&currentDay, "day", 1, "Current day you are reading.")
 	flag.Parse()
 
 	lists := generateLists()
 	chapters := generateListChapters(lists)
+
+	// Only use --date-started when --day was not provided
+	if currentDay == 1 {
+		day, err := daysSince(dateStarted)
+		if err != nil {
+			fmt.Printf("Error: Could not parse Date %s in ISO format\n", dateStarted)
+			return
+		}
+
+		currentDay = day + daysAdvanced - daysSkipped
+		if currentDay < 1 {
+			fmt.Printf("Error: Cannot create lists for a negative day\n")
+			return
+		}
+	}
 
 	fmt.Printf("Your 10 Chapters for today (day %d):\n", currentDay)
 	for listNumber, chapters := range chapters {
@@ -26,6 +47,19 @@ func main() {
 		chapter := chapters[index]
 		fmt.Printf("List %d: %s (%d/%d)\n", listNumber, chapter, index+1, len(chapters))
 	}
+}
+
+func daysSince(dateStarted string) (int, error) {
+	startDate, err := time.Parse("2006-01-02", dateStarted)
+	if err != nil {
+		return -1, err
+	}
+
+	dur := time.Since(startDate)
+	// Add 1, because dateStarted should be inclusive (day 1, not 0)
+	days := int(dur.Hours()/24) + 1
+
+	return days, nil
 }
 
 func generateListChapters(lists [10][]book) (chapters [10][]string) {
