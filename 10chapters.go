@@ -11,9 +11,9 @@ type book struct {
 	Chapters int
 }
 
-var currentDay int
-
 func main() {
+	var currentDay int
+
 	flag.IntVar(&currentDay, "day", 1, "Current day you are reading.")
 	flag.Parse()
 
