@@ -11,7 +11,6 @@ type book struct {
 	Chapters int
 }
 
-var chapters [10][]string
 var currentDay int
 
 func main() {
@@ -19,7 +18,17 @@ func main() {
 	flag.Parse()
 
 	lists := generateLists()
+	chapters := generateListChapters(lists)
 
+	fmt.Printf("Your 10 Chapters for today (day %d):\n", currentDay)
+	for listNumber, chapters := range chapters {
+		index := (currentDay - 1) % len(chapters)
+		chapter := chapters[index]
+		fmt.Printf("List %d: %s (%d/%d)\n", listNumber, chapter, index+1, len(chapters))
+	}
+}
+
+func generateListChapters(lists [10][]book) (chapters [10][]string) {
 	for listNumber, books := range lists {
 		for _, book := range books {
 			for chapter := 1; chapter <= book.Chapters; chapter++ {
@@ -28,13 +37,7 @@ func main() {
 			}
 		}
 	}
-
-	fmt.Printf("Your 10 Chapters for today (day %d):\n", currentDay)
-	for listNumber, chapters := range chapters {
-		index := (currentDay - 1) % len(chapters)
-		chapter := chapters[index]
-		fmt.Printf("List %d: %s (%d/%d)\n", listNumber, chapter, index+1, len(chapters))
-	}
+	return chapters
 }
 
 func generateLists() (lists [10][]book) {
