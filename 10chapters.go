@@ -70,20 +70,20 @@ func init() {
 		book{"2. Timotheus", 4},
 		book{"Titus", 3},
 		book{"Philemon", 1},
-		book{"Jakobus", 5}, // James?
+		book{"Jakobus", 5},
 		book{"1. Petrus", 5},
 		book{"2. Petrus", 3},
 		book{"1. Johannes", 5},
 		book{"2. Johannes", 1},
 		book{"3. Johannes", 1},
 		book{"Judas", 1},
-		book{"Offenbarung", 22}, // Revelation?
+		book{"Offenbarung", 22},
 	}
 
 	lists[4] = []book{
 		book{"Hiob", 42},
-		book{"Prediger", 12}, // Ecclesiastes?
-		book{"Hoheslied", 8}, // Song of Salomon?
+		book{"Prediger", 12},
+		book{"Hoheslied", 8},
 	}
 
 	lists[5] = []book{
