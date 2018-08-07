@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"strconv"
 	"time"
+	"net/http"
 )
 
 type book struct {
@@ -47,6 +48,33 @@ func main() {
 		chapter := chapters[index]
 		fmt.Printf("List %d: %s (%d/%d)\n", listNumber, chapter, index+1, len(chapters))
 	}
+}
+
+func serve(chapters [10][]string) {
+	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+		err := r.ParseForm()
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+
+		day, err := strconv.ParseInt(r.FormValue("day"), 10, 64)
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+
+		w.Header().Set("Content-Type", "text/plain")
+
+		fmt.Fprintf(w, "Your 10 Chapters for today (day %d):\n", day)
+		for listNumber, chapters := range chapters {
+			index := (day - 1) % int64(len(chapters))
+			chapter := chapters[index]
+			fmt.Fprintf(w, "List %d: %s (%d/%d)\n", listNumber, chapter, index+1, len(chapters))
+		}
+	})
+
+	http.ListenAndServe(":8080", nil)
 }
 
 func daysSince(dateStarted string) (int, error) {
