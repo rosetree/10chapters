@@ -16,7 +16,9 @@ type book struct {
 func main() {
 	var currentDay, daysAdvanced, daysSkipped int
 	var dateStarted string
+	var runHttpd bool
 
+	flag.BoolVar(&runHttpd, "httpd", false, "Whether to start http server on port 8080")
 	flag.StringVar(&dateStarted, "date-started", time.Now().Format("2006-01-02"),
 		"The date you started reading this plan.")
 	flag.IntVar(&daysAdvanced, "days-advanced", 0, "Amount of days you read in advance.")
@@ -26,6 +28,11 @@ func main() {
 
 	lists := generateLists()
 	chapters := generateListChapters(lists)
+
+	if (runHttpd) {
+		serve(chapters)
+		return
+	}
 
 	// Only use --date-started when --day was not provided
 	if currentDay == 1 {
