@@ -27,19 +27,12 @@ func main() {
 		return
 	}
 
-	// Only use --date-started when --day was not provided
-	if currentDay == 1 {
-		day, err := daysSince(dateStarted)
-		if err != nil {
-			fmt.Printf("Error: Could not parse Date %s in ISO format\n", dateStarted)
-			return
-		}
-
-		currentDay = day + daysAdvanced - daysSkipped
-		if currentDay < 1 {
-			fmt.Printf("Error: Cannot create lists for a negative day\n")
-			return
-		}
+	currentDay, err := decidePrintDay(currentDay,
+		dateStarted, daysAdvanced, daysSkipped)
+	if err != nil {
+		fmt.Println("Couldn’t select a day to use, due to this error:")
+		fmt.Println(err)
+		return
 	}
 
 	fmt.Printf("Your 10 Chapters for today (day %d):\n", currentDay)

@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"strconv"
 	"time"
 )
@@ -8,6 +9,41 @@ import (
 type book struct {
 	Name     string
 	Chapters int
+}
+
+type negDayErr int
+
+func (e negDayErr) Error() string {
+	return fmt.Sprintf("cannot create a list for negative day %d", e)
+}
+
+// decidePrintDay uses all day parameters to decide which days
+// chapters will be printed.
+//
+// It preferes a positive dayNr over everything else. If
+// none is given, a day from the date and its adjustments is
+// calculated.
+//
+// Errors can be anything from the conversion of date to time. Or a
+// negDayErr when the adjustments to date result in a negative day.
+func decidePrintDay(dayNr int, date string, advanced, skipped int) (day int, err error) {
+	day = dayNr
+	if day > 1 {
+		return
+	}
+
+	day, err = daysSince(date)
+	if err != nil {
+		return
+	}
+
+	day = day + advanced - skipped
+	if day < 1 {
+		err = negDayErr(day)
+		return
+	}
+
+	return
 }
 
 func daysSince(dateStarted string) (int, error) {
