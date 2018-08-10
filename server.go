@@ -14,40 +14,30 @@ func serve(chapters [10][]string) {
 			return
 		}
 
-		var day int64
-
 		dayParam := r.FormValue("day")
 		dateParam := r.FormValue("started")
+		advancedParam := r.FormValue("advanced")
+		skippedParam := r.FormValue("skipped")
+
+		var dayNr, daysAdvanced, daysSkipped int64
 
 		if dayParam != "" {
-			day, err = strconv.ParseInt(dayParam, 10, 64)
+			dayNr, err = strconv.ParseInt(dayParam, 10, 64)
 			if err != nil {
 				http.Error(w, err.Error(), http.StatusInternalServerError)
 				return
 			}
 		}
 
-		if dayParam == "" && dateParam != "" {
-			var daysAdvanced, daysSkipped int64
+		// TODO: Handle these ParseInt errors
+		daysAdvanced, _ = strconv.ParseInt(advancedParam, 10, 64)
+		daysSkipped, _ = strconv.ParseInt(skippedParam, 10, 64)
 
-			advancedParam := r.FormValue("advanced")
-			skippedParam := r.FormValue("skipped")
-
-			currentDay, err := daysSince(dateParam)
-			if err != nil {
-				http.Error(w, err.Error(), http.StatusInternalServerError)
-				return
-			}
-
-			// TODO: Handle these errors
-			daysAdvanced, _ = strconv.ParseInt(advancedParam, 10, 64)
-			daysSkipped, _ = strconv.ParseInt(skippedParam, 10, 64)
-
-			day = int64(currentDay) + daysAdvanced - daysSkipped
-			if day < 1 {
-				http.Error(w, "Error: Cannot create lists for a negative day\n", http.StatusBadRequest)
-				return
-			}
+		day, err := decidePrintDay(int(dayNr),
+			dateParam, int(daysAdvanced), int(daysSkipped))
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
 		}
 
 		w.Header().Set("Content-Type", "text/plain")
