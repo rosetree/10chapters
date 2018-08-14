@@ -4,6 +4,7 @@ import (
 	"flag"
 	"fmt"
 	"time"
+	"os"
 )
 
 func main() {
@@ -35,10 +36,10 @@ func main() {
 		return
 	}
 
-	fmt.Printf("Your 10 Chapters for today (day %d):\n", currentDay)
+	fmt.Fprintf(os.Stdout, "Your 10 Chapters for today (day %d):\n", currentDay)
 	for listNumber, chapters := range chapters {
 		index := (currentDay - 1) % len(chapters)
 		chapter := chapters[index]
-		fmt.Printf("List %d: %s (%d/%d)\n", listNumber, chapter, index+1, len(chapters))
+		fmt.Fprintf(os.Stdout, "List %d: %s (%d/%d)\n", listNumber, chapter, index+1, len(chapters))
 	}
 }
