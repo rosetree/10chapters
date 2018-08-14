@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"net/http"
 	"strconv"
 )
@@ -42,12 +41,7 @@ func serve(chapters [10][]string) {
 
 		w.Header().Set("Content-Type", "text/plain")
 
-		fmt.Fprintf(w, "Your 10 Chapters for today (day %d):\n", day)
-		for listNumber, chapters := range chapters {
-			index := (int(day) - 1) % len(chapters)
-			chapter := chapters[index]
-			fmt.Fprintf(w, "List %d: %s (%d/%d)\n", listNumber, chapter, index+1, len(chapters))
-		}
+		printChapters(w, day, chapters)
 	})
 
 	http.ListenAndServe(":8080", nil)

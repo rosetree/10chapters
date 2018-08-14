@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"strconv"
 	"time"
+	"io"
 )
 
 type book struct {
@@ -57,6 +58,16 @@ func daysSince(dateStarted string) (int, error) {
 	days := int(dur.Hours()/24) + 1
 
 	return days, nil
+}
+
+// printChapters writes the chapters for dayNr to w.
+func printChapters(w io.Writer, dayNr int, chapters [10][]string) {
+	fmt.Fprintf(w, "Your 10 Chapters for today (day %d):\n", dayNr)
+	for listNumber, chapters := range chapters {
+		index := (dayNr - 1) % len(chapters)
+		chapter := chapters[index]
+		fmt.Fprintf(w, "List %d: %s (%d/%d)\n", listNumber, chapter, index+1, len(chapters))
+	}
 }
 
 func generateListChapters(lists [10][]book) (chapters [10][]string) {

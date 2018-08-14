@@ -36,10 +36,5 @@ func main() {
 		return
 	}
 
-	fmt.Fprintf(os.Stdout, "Your 10 Chapters for today (day %d):\n", currentDay)
-	for listNumber, chapters := range chapters {
-		index := (currentDay - 1) % len(chapters)
-		chapter := chapters[index]
-		fmt.Fprintf(os.Stdout, "List %d: %s (%d/%d)\n", listNumber, chapter, index+1, len(chapters))
-	}
+	printChapters(os.Stdout, currentDay, chapters)
 }
