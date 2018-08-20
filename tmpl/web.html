@@ -20,16 +20,12 @@
       </header>
 
       <ol class="chapters-list">
-        <li class="chapters-list__item"><b class="chapters-list__chapter">Lukas 23</b> (67/89)</li>
-        <li class="chapters-list__item"><b class="chapters-list__chapter">Exodus 8</b> (58/187)</li>
-        <li class="chapters-list__item"><b class="chapters-list__chapter">Römer 11</b> (11/78)</li>
-        <li class="chapters-list__item"><b class="chapters-list__chapter">Offenbarung 7</b> (50/65)</li>
-        <li class="chapters-list__item"><b class="chapters-list__chapter">Hoheslied 5</b> (59/62)</li>
-        <li class="chapters-list__item"><b class="chapters-list__chapter">Psalm 95</b> (95/150)</li>
-        <li class="chapters-list__item"><b class="chapters-list__chapter">Sprüche 28</b> (28/31)</li>
-        <li class="chapters-list__item"><b class="chapters-list__chapter">Esther 6</b> (245/249)</li>
-        <li class="chapters-list__item"><b class="chapters-list__chapter">Sacharja 12</b> (245/250)</li>
-        <li class="chapters-list__item"><b class="chapters-list__chapter">Apostelgeschichte 21</b> (21/28)</li>
+        {{- range .Chapters }}
+        <li class="chapters-list__item">
+          <b class="chapters-list__chapter">{{ .Chapter }}</b>
+          ({{ .NrInList }} / {{ .ChaptersInList }})
+        </li>
+        {{- end }}
       </ol>
 
       <footer>

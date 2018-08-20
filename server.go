@@ -1,6 +1,7 @@
 package main
 
 import (
+	"html/template"
 	"net/http"
 	"strconv"
 )
@@ -39,9 +40,9 @@ func serve(chapters [10][]string) {
 			return
 		}
 
-		w.Header().Set("Content-Type", "text/plain")
-
-		printChapters(w, day, chapters)
+		tmpl := template.Must(template.ParseFiles("tmpl/web.html"))
+		tmplData := prepareTmplData(day, chapters)
+		tmpl.Execute(w, tmplData)
 	})
 
 	http.ListenAndServe(":8080", nil)
