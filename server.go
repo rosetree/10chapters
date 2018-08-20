@@ -7,6 +7,10 @@ import (
 )
 
 func serve(chapters [10][]string) {
+	http.HandleFunc("/app.css", func(w http.ResponseWriter, r *http.Request) {
+		http.ServeFile(w, r, "public/app.css")
+	})
+
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		err := r.ParseForm()
 		if err != nil {
