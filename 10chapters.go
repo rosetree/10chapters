@@ -3,9 +3,9 @@ package main
 import (
 	"flag"
 	"fmt"
-	"time"
 	"os"
 	"text/template"
+	"time"
 )
 
 func main() {
@@ -24,7 +24,7 @@ func main() {
 	lists := generateLists()
 	chapters := generateListChapters(lists)
 
-	if (runHttpd) {
+	if runHttpd {
 		serve(chapters)
 		return
 	}

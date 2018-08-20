@@ -32,22 +32,22 @@ func TestDaysSince(t *testing.T) {
 // TestGenerateListChapters checks the lengths of the gernated chapter
 // lists and tests for a few expected values.
 func TestGenerateListChapters(t *testing.T) {
-	lists := [10][]book {
-		[]book{ book{"One", 1}, book{"Two", 2} },
-		[]book{ book{"Two", 2}, book{"One", 1} },
-		[]book{ book{"None", 0} },
-		[]book{ book{"abc", 26} },
-		[]book{ book{"abc", 26} },
-		[]book{ book{"abc", 26} },
-		[]book{ book{"abc", 26} },
-		[]book{ book{"abc", 26} },
-		[]book{ book{"abc", 26} },
-		[]book{ book{"abc", 26} },
+	lists := [10][]book{
+		[]book{book{"One", 1}, book{"Two", 2}},
+		[]book{book{"Two", 2}, book{"One", 1}},
+		[]book{book{"None", 0}},
+		[]book{book{"abc", 26}},
+		[]book{book{"abc", 26}},
+		[]book{book{"abc", 26}},
+		[]book{book{"abc", 26}},
+		[]book{book{"abc", 26}},
+		[]book{book{"abc", 26}},
+		[]book{book{"abc", 26}},
 	}
 
 	chapters := generateListChapters(lists)
 
-	lengths := []int{ 3, 3, 0, 26, 26, 26, 26, 26, 26, 26 }
+	lengths := []int{3, 3, 0, 26, 26, 26, 26, 26, 26, 26}
 	for i := 0; i < 10; i++ {
 		if len(chapters[i]) == lengths[i] {
 			continue

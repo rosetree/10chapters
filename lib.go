@@ -88,9 +88,9 @@ func prepareTmplData(dayNr int, chapters [10][]string) tmplData {
 		chapter := chapters[index]
 
 		tmplChapters[listNumber] = chapterData{
-			Nr: listNumber,
-			Chapter: chapter,
-			NrInList: index+1,
+			Nr:             listNumber,
+			Chapter:        chapter,
+			NrInList:       index + 1,
 			ChaptersInList: len(chapters),
 		}
 	}
