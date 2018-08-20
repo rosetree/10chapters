@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"time"
 	"os"
+	"text/template"
 )
 
 func main() {
@@ -36,5 +37,7 @@ func main() {
 		return
 	}
 
-	printChapters(os.Stdout, currentDay, chapters)
+	tmpl := template.Must(template.ParseFiles("tmpl/cli.txt"))
+	tmplData := prepareTmplData(currentDay, chapters)
+	tmpl.Execute(os.Stdout, tmplData)
 }
