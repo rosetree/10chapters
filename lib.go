@@ -2,9 +2,9 @@ package main
 
 import (
 	"fmt"
+	"io"
 	"strconv"
 	"time"
-	"io"
 )
 
 type book struct {
@@ -68,6 +68,34 @@ func printChapters(w io.Writer, dayNr int, chapters [10][]string) {
 		chapter := chapters[index]
 		fmt.Fprintf(w, "List %d: %s (%d/%d)\n", listNumber, chapter, index+1, len(chapters))
 	}
+}
+
+type chapterData struct {
+	Nr, NrInList, ChaptersInList int
+	Chapter                      string
+}
+
+type tmplData struct {
+	DayNr    int
+	Chapters [10]chapterData
+}
+
+func prepareTmplData(dayNr int, chapters [10][]string) tmplData {
+	var tmplChapters [10]chapterData
+
+	for listNumber, chapters := range chapters {
+		index := (dayNr - 1) % len(chapters)
+		chapter := chapters[index]
+
+		tmplChapters[listNumber] = chapterData{
+			Nr: listNumber,
+			Chapter: chapter,
+			NrInList: index+1,
+			ChaptersInList: len(chapters),
+		}
+	}
+
+	return tmplData{dayNr, tmplChapters}
 }
 
 func generateListChapters(lists [10][]book) (chapters [10][]string) {

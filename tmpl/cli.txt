@@ -1,0 +1,4 @@
+Your 10 Chapters for today (day {{ .DayNr }}):
+{{- range .Chapters }}
+List {{ .Nr }}: {{ .Chapter }} ({{ .NrInList }}/{{ .ChaptersInList }})
+{{- end }}

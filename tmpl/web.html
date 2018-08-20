@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang='de'>
+  <head>
+    <meta charset='utf-8'>
+    <title>10 Chapters Web App</title>
+    <meta name='viewport' content='width=device-width,initial-scale=1'>
+    <link href='app.css' rel='stylesheet'>
+  </head>
+
+  <body>
+
+    <header>
+      <h1>10 Chapters</h1>
+    </header>
+
+    <main>
+
+      <header>
+        <h2>Your list for today</h2>
+      </header>
+
+      <ol class="chapters-list">
+        {{- range .Chapters }}
+        <li class="chapters-list__item">
+          <b class="chapters-list__chapter">{{ .Chapter }}</b>
+          ({{ .NrInList }} / {{ .ChaptersInList }})
+        </li>
+        {{- end }}
+      </ol>
+
+      <footer>
+        <section class='fin-sect'>
+          <h3 class='fin-sect__title'>All read?</h3>
+          <p class='fin-sect__text'>Nice! Just come back here tomorrow. Have a blessed day.</p>
+        </section>
+
+        <nav class='fin-sect'>
+          <h3 class='fin-sect__title'>Wrong list?</h3>
+          <p class='fin-sect__text'>
+            <!-- Try the
+            <a rel='prev' href=''>previous</a> or the
+            <a rel='next' href=''>next</a> list. -->
+            Try adjusting the parameters in the address bar.
+          </p>
+        </nav>
+      </footer>
+
+    </main>
+
+    <footer>
+      <nav class="meta-nav">
+        <h2 class="meta-nav__title">General Information</h2>
+
+        <a class='meta-nav__a'
+           href='http://www.sohmer.net/media/professor_grant_horners_bible_reading_system.pdf'>
+          <p class='meta-nav__text'>
+            Learn more about the <b>10 Chapters</b> system.
+          </p>
+        </a>
+
+        <a class='meta-nav__a'
+           href='https://github.com/rosetree/10chapters'>
+          <p class='meta-nav__text'>
+            Find out about this <b>10 Chapters</b> web app.
+          </p>
+        </a>
+      </nav>
+    </footer>
+
+  </body>
+</html>
