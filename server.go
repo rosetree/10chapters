@@ -10,6 +10,15 @@ func serve(chapters [10][]string) {
 	http.HandleFunc("/app.css", func(w http.ResponseWriter, r *http.Request) {
 		http.ServeFile(w, r, "public/app.css")
 	})
+	http.HandleFunc("/manifest.json", func(w http.ResponseWriter, r *http.Request) {
+		http.ServeFile(w, r, "public/manifest.json")
+	})
+	http.HandleFunc("/icon-512.png", func(w http.ResponseWriter, r *http.Request) {
+		http.ServeFile(w, r, "public/icon-512.png")
+	})
+	http.HandleFunc("/icon-192.png", func(w http.ResponseWriter, r *http.Request) {
+		http.ServeFile(w, r, "public/icon-192.png")
+	})
 
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		err := r.ParseForm()
