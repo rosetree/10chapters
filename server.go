@@ -4,6 +4,7 @@ import (
 	"html/template"
 	"net/http"
 	"strconv"
+	"encoding/json"
 )
 
 func serve(chapters [10][]string) {
@@ -31,6 +32,7 @@ func serve(chapters [10][]string) {
 		dateParam := r.FormValue("started")
 		advancedParam := r.FormValue("advanced")
 		skippedParam := r.FormValue("skipped")
+		formatParam := r.FormValue("format")
 
 		var dayNr, daysAdvanced, daysSkipped int64
 
@@ -53,9 +55,14 @@ func serve(chapters [10][]string) {
 			return
 		}
 
-		tmpl := template.Must(template.ParseFiles("tmpl/web.html"))
 		tmplData := prepareTmplData(day, chapters)
-		tmpl.Execute(w, tmplData)
+
+		if (formatParam == "json") {
+			json.NewEncoder(w).Encode(tmplData)
+		} else {
+			tmpl := template.Must(template.ParseFiles("tmpl/web.html"))
+			tmpl.Execute(w, tmplData)
+		}
 	})
 
 	http.ListenAndServe(":8080", nil)
