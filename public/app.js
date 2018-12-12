@@ -28,13 +28,29 @@ class ChaptersList extends React.Component {
 class App extends React.Component {
 
     state = {
+        // TODO: don’t use hard coded params
+        params: {
+            started: "2017-12-06",
+            skipped: 7,
+            advanced: 0
+        },
         chapters: null,
         loading: true
     };
 
+    listsURL() {
+        const url = new URL("./lists", document.location);
+
+        url.searchParams.set("started", this.state.params.started);
+        url.searchParams.set("skipped", this.state.params.skipped);
+        url.searchParams.set("advanced", this.state.params.advanced);
+        url.searchParams.set("format", "json");
+
+        return url.href;
+    }
+
     loadChapters = () => {
-        // TODO: don’t use hard coded params
-        const res = fetch("list?started=2017-12-06&skipped=7&format=json");
+        const res = fetch(this.listsURL());
 
         this.setState({ loading: true });
 
