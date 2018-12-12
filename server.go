@@ -8,6 +8,12 @@ import (
 )
 
 func serve(chapters [10][]string) {
+	http.HandleFunc("/app", func(w http.ResponseWriter, r *http.Request) {
+		http.ServeFile(w, r, "public/app.html")
+	})
+	http.HandleFunc("/app.js", func(w http.ResponseWriter, r *http.Request) {
+		http.ServeFile(w, r, "public/app.js")
+	})
 	http.HandleFunc("/app.css", func(w http.ResponseWriter, r *http.Request) {
 		http.ServeFile(w, r, "public/app.css")
 	})
